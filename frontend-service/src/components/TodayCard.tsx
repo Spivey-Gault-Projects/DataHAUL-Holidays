@@ -1,0 +1,37 @@
+import { Card, CardContent, Typography, Button, Box } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
+import { fetchIsTodayPublicHoliday } from "../api/holidaysApi";
+import { Country } from "../types/Country";
+
+interface Props {
+  country: Country | null;
+}
+
+export default function TodayCard({ country }: Props) {
+  const { data, isFetching, refetch } = useQuery<boolean, Error>({
+    queryKey: ["today", country?.countryCode],
+    queryFn: () => fetchIsTodayPublicHoliday(country!.countryCode),
+    enabled: false,
+  });
+
+  if (!country) return null;
+  return (
+    <Card sx={{ mb: 4 }}>
+      <CardContent>
+        <Typography variant="h6">
+          Is today a holiday in {country.name}?
+        </Typography>
+        {isFetching ? (
+          <Typography>Checking…</Typography>
+        ) : data === undefined ? null : (
+          <Typography variant="h4">{data ? "Yes 🎉" : "No 🙏"}</Typography>
+        )}
+        <Box mt={2}>
+          <Button variant="outlined" onClick={() => refetch()}>
+            Check Today
+          </Button>
+        </Box>
+      </CardContent>
+    </Card>
+  );
+}

@@ -7,4 +7,6 @@ export interface Holiday {
   fixed: boolean;
   global: boolean;
   launchYear?: number;
+  types: string[];
+  counties?: string[];
 }

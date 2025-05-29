@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Box, TextField, Button } from "@mui/material";
-import { HolidaysTable } from "./HolidaysTable";
 import { fetchHolidays } from "../../api/holidaysApi";
 import { Holiday } from "../../types/Holiday";
+import { HolidaysTable } from "../../components/HolidaysTable";
 
 export function HolidaysPage() {
   const [year, setYear] = useState<number>(new Date().getFullYear());
@@ -45,7 +45,7 @@ export function HolidaysPage() {
         </Button>
       </Box>
 
-      <HolidaysTable rows={holidays} loading={loading} />
+      {/* <HolidaysTable rows={holidays} loading={loading} /> */}
     </>
   );
 }

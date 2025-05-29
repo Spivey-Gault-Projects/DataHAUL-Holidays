@@ -1,16 +1,5 @@
-import { Container, Typography } from "@mui/material";
-import React from "react";
-import { HolidaysPage } from "./screens/Holidays/HolidaysPage";
+import DashboardPage from "./screens/Dashboard/DashboardPage";
 
-function App() {
-  return (
-    <Container sx={{ mt: 4 }}>
-      <Typography variant="h3" gutterBottom>
-        DataHaul Holidays Viewer
-      </Typography>
-      <HolidaysPage />
-    </Container>
-  );
+export default function App() {
+  return <DashboardPage />;
 }
-
-export default App;
