@@ -1,0 +1,6 @@
+@DataHaul.Holidays.Api_HostAddress = http://localhost:5098
+
+GET {{DataHaul.Holidays.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
