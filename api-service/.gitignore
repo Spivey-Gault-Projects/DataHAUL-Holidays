@@ -1,0 +1,38 @@
+## .NET build artifacts
+[Bb]in/
+[Oo]bj/
+
+## Visual Studio settings & temporary files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Rider
+.idea/
+
+## VS Code
+.vscode/
+
+## NuGet packages & tools
+*.nupkg
+*.snupkg
+.packages/
+
+## User secrets (if you ever use Secret Manager)
+secrets.json
+
+## Local Azure Functions settings
+local.settings.json
+
+## Certificate/key files
+*.pfx
+*.cer
+
+## Publish output
+publish/
+
+## OS files
+.DS_Store
+Thumbs.db
