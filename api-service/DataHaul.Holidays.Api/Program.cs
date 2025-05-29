@@ -8,6 +8,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// 0. Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactDev", policy =>
+    {
+        policy
+        .WithOrigins("http://localhost:3000")   // React dev server
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
+
 // 1. Database Context
 builder.Services.AddDbContext<HolidayContext>(opts =>
   opts.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -33,6 +45,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("AllowReactDev");
+
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
