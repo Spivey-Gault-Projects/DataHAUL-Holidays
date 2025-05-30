@@ -20,6 +20,7 @@ import UpcomingCalendar from "./UpcomingCalendar";
 import YearCalendar from "./YearCalendar";
 import LongWeekendDetail from "./LongWeekendDetail";
 import { HolidaysSection } from "./HolidaysSection";
+import { toast } from "react-toastify";
 
 export default function ExplorerSection() {
   const [year, setYear] = useState(new Date().getFullYear());
@@ -32,13 +33,19 @@ export default function ExplorerSection() {
   /**
    * Query used to fetch the list of countries
    */
-  const { data: countries = [], isLoading: loadingCountries } = useQuery<
-    Country[],
-    Error
-  >({
+  const {
+    data: countries = [],
+    isLoading: loadingCountries,
+    isError: isCountriesError,
+    error: countriesError,
+  } = useQuery<Country[], Error>({
     queryKey: ["countries"],
     queryFn: fetchCountries,
   });
+  useEffect(() => {
+    if (isCountriesError && countriesError)
+      toast.error(`Countries load failed: ${countriesError.message}`);
+  }, [isCountriesError, countriesError]);
 
   /**
    * Query used to fetch holidays for the selected year and country
@@ -46,9 +53,12 @@ export default function ExplorerSection() {
   const holidaysQuery = useQuery<Holiday[], Error>({
     queryKey: ["holidays", year, country?.countryCode],
     queryFn: () => fetchHolidays(year, country!.countryCode),
-    enabled: activeTab === 2 && Boolean(country),
+    enabled: activeTab === 2 && !!country,
   });
-
+  useEffect(() => {
+    if (holidaysQuery.error)
+      toast.error(`Holidays load failed: ${holidaysQuery.error.message}`);
+  }, [holidaysQuery.error]);
   /**
    * Query used to fetch long weekends for the selected year and country
    */
@@ -57,7 +67,10 @@ export default function ExplorerSection() {
     queryFn: () => fetchLongWeekends(year, country!.countryCode),
     enabled: false,
   });
-
+  useEffect(() => {
+    if (longWeekendsQuery.error)
+      toast.error(`Long‐weekends failed: ${longWeekendsQuery.error.message}`);
+  }, [longWeekendsQuery.error]);
   /**
    * Query used to fetch the next worldwide holidays
    */
@@ -66,6 +79,12 @@ export default function ExplorerSection() {
     queryFn: fetchNextWorldwide,
     enabled: activeTab === 0,
   });
+  useEffect(() => {
+    if (nextWorldwideQuery.error)
+      toast.error(
+        `Upcoming holidays failed: ${nextWorldwideQuery.error.message}`
+      );
+  }, [nextWorldwideQuery.error]);
 
   /**
    * Query used to fetch the next 365 days of holidays for the selected country
@@ -75,7 +94,10 @@ export default function ExplorerSection() {
     queryFn: () => fetchNext365(country!.countryCode),
     enabled: activeTab === 1 && !!country,
   });
-
+  useEffect(() => {
+    if (next365Query.error)
+      toast.error(`365‐day view failed: ${next365Query.error.message}`);
+  }, [next365Query.error]);
   /**
    * Effect that will run when we switch to the Holidays tab (tab 2) and a country is selected, refetching holidays.
    */

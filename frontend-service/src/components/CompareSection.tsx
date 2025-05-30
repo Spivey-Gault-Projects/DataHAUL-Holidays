@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Box,
   Card,
@@ -30,6 +30,7 @@ import {
 } from "recharts";
 import { Country, Holiday } from "../types/types";
 import { fetchHolidays } from "../api/holidaysApi";
+import { toast } from "react-toastify";
 
 const MAX_COMPARE = 3;
 
@@ -52,12 +53,15 @@ export default function CompareSection({
   /**
    * Custom hook to fetch holidays for multiple countries
    */
-  const { data, refetch, isFetching } = useQuery<Holiday[][], Error>({
+  const { data, refetch, isFetching, error } = useQuery<Holiday[][], Error>({
     queryKey: ["compare", year, selected.map((c) => c.countryCode).join(",")],
     queryFn: async () =>
       Promise.all(selected.map((c) => fetchHolidays(year, c.countryCode))),
     enabled: false,
   });
+  useEffect(() => {
+    if (error) toast.error(`Compare failed: ${error.message}`);
+  }, [error]);
 
   /**
    * Transforms the fetched holiday data into a format suitable for the chart.
