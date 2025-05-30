@@ -121,24 +121,24 @@ All API calls use Axios and are integrated via React Query for caching and state
 
 ## Development Notes
 
-### Uses Material UI theming system for consistent styling
+- Uses Material UI theming system for consistent styling
 
-### Implements responsive design principles
+- Implements responsive design principles
 
-### Follows React best practices with functional components and hooks
+- Follows React best practices with functional components and hooks
 
-### Uses TypeScript for type safety
+- Uses TypeScript for type safety
 
-### Implements React Query for data fetching and caching
+- Implements React Query for data fetching and caching
 
 ## TODOs & Future Improvements
 
-### Add user authentication
+- Add user authentication
 
-### Implement holiday favorites/saving
+- Implement holiday favorites/saving
 
-### Add more advanced filtering options
+- Add more advanced filtering options
 
-### Improve mobile experience
+- Improve mobile experience
 
-### Add unit and integration tests
+- Add unit and integration tests
