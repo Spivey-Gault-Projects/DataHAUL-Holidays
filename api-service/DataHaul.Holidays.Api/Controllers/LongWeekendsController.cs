@@ -2,6 +2,12 @@ using DataHaul.Holidays.Api.Models;
 using DataHaul.Holidays.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 
+
+/**
+* LongWeekendsController.cs
+* This controller provides an endpoint to retrieve long weekends for a given year and country code.
+* Long weekends are defined as public holidays that create a weekend of at least three days.
+*/
 namespace DataHaul.Holidays.Api.Controllers
 {
 	[ApiController]

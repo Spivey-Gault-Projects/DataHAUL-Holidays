@@ -2,6 +2,13 @@ using DataHaul.Holidays.Api.Models;
 using DataHaul.Holidays.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 
+
+/**
+ * CountriesController.cs
+ *
+ * This controller provides an endpoint to retrieve a list of available countries
+ * for which public holidays can be queried.
+ */
 namespace DataHaul.Holidays.Api.Controllers
 {
 	[ApiController]

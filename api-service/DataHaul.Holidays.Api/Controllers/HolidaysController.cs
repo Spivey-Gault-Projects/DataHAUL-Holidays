@@ -4,6 +4,13 @@ using DataHaul.Holidays.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
+
+/**
+ * HolidaysController.cs
+ *
+ * This controller provides endpoints to retrieve public holidays for a specific country
+ * and year, check if today is a public holiday, and get the next public holidays worldwide.
+ */
 namespace DataHaul.Holidays.Api.Controllers
 {
 	[ApiController]

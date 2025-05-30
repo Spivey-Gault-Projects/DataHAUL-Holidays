@@ -3,6 +3,11 @@ using DataHaul.Holidays.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 
 
+/**
+* NextHolidaysController.cs
+* This controller provides an endpoint to retrieve the next public holidays worldwide.
+* It uses the INagerDateService to fetch the data.
+*/
 namespace DataHaul.Holidays.Api.Controllers
 {
 	[ApiController]
