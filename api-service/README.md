@@ -69,14 +69,11 @@ The service integrates with the [Nager.Date Public Holiday API](https://date.nag
 
 ## TODOs & Future Improvements
 
-### Add authentication/authorization
-
-### Implement caching for API responses
-
-### Add more comprehensive error handling
-
-### Write unit and integration tests
-
-### Implement rate limiting
-
-### Add health check endpoints
+- [ ] **Add authentication/authorization**: Implement JWT or Azure AD authentication
+- [ ] **Implement caching**: Add response caching for frequently accessed endpoints
+- [ ] **Enhanced error handling**: Create custom error responses and logging
+- [ ] **Testing**:
+  - [ ] Unit tests for services
+  - [ ] Integration tests for controllers
+- [ ] **Rate limiting**: Protect API from abuse
+- [ ] **Health checks**: Add `/health` endpoint for monitoring
