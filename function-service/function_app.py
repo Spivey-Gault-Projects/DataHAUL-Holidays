@@ -53,3 +53,31 @@ def IsTodayFunction(req: func.HttpRequest) -> func.HttpResponse:
         status_code=resp.status_code,
         mimetype="application/json"
     )
+
+@app.route(route="NextPublicHolidaysWorldwide", auth_level=func.AuthLevel.ANONYMOUS)
+def NextWorldwideFunction(req: func.HttpRequest) -> func.HttpResponse:
+    """GET /api/NextPublicHolidaysWorldwide"""
+    url = f"{BASE_URL}/NextPublicHolidaysWorldwide"
+    resp = requests.get(url)
+    return func.HttpResponse(
+        body=resp.text,
+        status_code=resp.status_code,
+        mimetype="application/json"
+    )
+
+@app.route(route="NextPublicHolidays/{country}", auth_level=func.AuthLevel.ANONYMOUS)
+def NextByCountryFunction(req: func.HttpRequest) -> func.HttpResponse:
+    """GET /api/NextPublicHolidays/{country}"""
+    country = req.route_params.get("country")
+    if not country:
+        return func.HttpResponse(
+            "Usage: GET /api/NextPublicHolidays/{country}",
+            status_code=400
+        )
+    url = f"{BASE_URL}/NextPublicHolidays/{country.upper()}"
+    resp = requests.get(url)
+    return func.HttpResponse(
+        body=resp.text,
+        status_code=resp.status_code,
+        mimetype="application/json"
+    )

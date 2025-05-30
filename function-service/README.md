@@ -27,15 +27,20 @@ Run locally and start the functions runtime:
 
 Test with curl:
 
-- curl http://localhost:7071/api/Holidays/2025/US
-- curl http://localhost:7071/api/LongWeekend/2025/US
-- curl http://localhost:7071/api/IsTodayPublicHoliday/US
+```bash
+curl http://localhost:7071/api/Holidays/2025/US
+curl http://localhost:7071/api/LongWeekend/2025/US
+curl http://localhost:7071/api/IsTodayPublicHoliday/US
+curl http://localhost:7071/api/NextPublicHolidaysWorldwide
+curl http://localhost:7071/api/NextPublicHolidays/CA
+
+
+```
 
 Endpoints:
 
-- GET /api/Holidays/{year}/{country}
-  - List all public holidays for given year & country code.
-- GET /api/LongWeekend/{year}/{country}
-  - List all long-weekend periods for given year & country.
-- GET /api/IsTodayPublicHoliday/{country}
-  - Returns true/false if today is a holiday.
+HolidaysFunction: GET http://localhost:7071/api/Holidays/{year}/{country}
+LongWeekendsFunction: GET http://localhost:7071/api/LongWeekend/{year}/{country}
+IsTodayFunction: GET http://localhost:7071/api/IsTodayPublicHoliday/{country}
+NextWorldwideFunction: GET http://localhost:7071/api/NextPublicHolidaysWorldwide
+NextByCountryFunction: GET http://localhost:7071/api/NextPublicHolidays/{country}
