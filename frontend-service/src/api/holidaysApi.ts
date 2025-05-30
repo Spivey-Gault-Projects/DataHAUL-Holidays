@@ -28,3 +28,8 @@ export async function fetchIsTodayPublicHoliday(countryCode: string) {
   );
   return r.data;
 }
+
+export async function fetchNextWorldwide(): Promise<Holiday[]> {
+  const r = await axios.get<Holiday[]>(`${base}/nextholidays`);
+  return r.data;
+}

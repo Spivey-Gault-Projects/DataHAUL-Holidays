@@ -31,5 +31,10 @@ namespace DataHaul.Holidays.Api.Services
 			var result = await _http.GetFromJsonAsync<bool>($"IsTodayPublicHoliday/{countryCode}");
 			return result;
 		}
+		public async Task<IEnumerable<Holiday>> GetNextPublicHolidaysWorldwideAsync()
+		{
+			var result = await _http.GetFromJsonAsync<List<Holiday>>("NextPublicHolidaysWorldwide");
+			return result ?? Enumerable.Empty<Holiday>();
+		}
 	}
 }
