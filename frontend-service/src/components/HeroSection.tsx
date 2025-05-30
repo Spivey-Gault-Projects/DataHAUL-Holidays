@@ -1,20 +1,16 @@
 import { Box, Typography } from "@mui/material";
 
-interface HeroSectionProps {
-  onGetStarted: () => void;
-}
-
-export default function HeroSection({ onGetStarted }: HeroSectionProps) {
+export default function HeroSection() {
   return (
     <Box
       sx={{
         textAlign: "center",
-        py: 4,
-        px: 2,
+        py: { xs: 4, md: 6 },
+        px: { xs: 2, md: 4 },
         borderRadius: 2,
-        background: (theme) =>
-          `linear-gradient(135deg, ${theme.palette.accent.main} 0%, ${theme.palette.primary.main} 100%)`,
-        color: (theme) => theme.palette.primary.contrastText,
+        backgroundImage: "linear-gradient(145deg, #1A237E 0%, #3949AB 100%)",
+        boxShadow: 3,
+        color: "#ffffff",
       }}
     >
       <Typography variant="h2" gutterBottom>

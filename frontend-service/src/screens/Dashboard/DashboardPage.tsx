@@ -8,11 +8,7 @@ export default function DashboardPage() {
 
   return (
     <>
-      <HeroSection
-        onGetStarted={() =>
-          explorerRef.current?.scrollIntoView({ behavior: "smooth" })
-        }
-      />
+      <HeroSection />
 
       <Box ref={explorerRef} sx={{ p: 4 }}>
         <ExplorerSection />
