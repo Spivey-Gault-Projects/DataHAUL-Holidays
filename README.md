@@ -91,12 +91,12 @@ Built as part of the DataHaul interview process, demonstrating:
 
 4. **Configure frontend-service**:
 
-```bash
-cd frontend-service
-echo "REACT_APP_API_BASE_URL=http://localhost:5000" > .env
-npm install
-cd ..
-```
+   ```bash
+   cd frontend-service
+   echo "REACT_APP_API_BASE_URL=http://localhost:5000" > .env
+   npm install
+   cd ..
+   ```
 
 5. **Set up function-service**:
    ```bash
@@ -107,32 +107,43 @@ cd ..
    cd ..
    ```
 
-```
+## To run the api-service:
 
+    ```bash
+      cd api-service/DataHaul.Holidays.Api
+      dotnet run --urls=http://localhost:5000
+    ```
 
-```
+## To run the frontend-service:
 
-- To run the api-service and frontend-service from the project root:
-  ./start-services.sh
-- If necessary, command to make it executable
-  chmod +x start-services.sh
+    ```bash
+    cd frontend-service
+    npm run start
+    ```
 
-- To run the api-service:
-  cd api-service/DataHaul.Holidays.Api
-  dotnet run --urls=http://localhost:5000
+## To start the Docker database:
 
-- To run the frontend-service:
-  cd frontend-service
-  npm run start
+    ```bash
+    cd database-service
+    docker-compose up -d
+    ```
 
-- To start the Docker database
-  cd database-service
-  docker-compose up -d
+## Potential Technical Improvements
 
-```
+- **Unified “start all” script**
+  A single shell script (`start-services.sh`) to spin up the database, API, function app and frontend from the project root.
 
-```
+- **CI/CD with GitHub Actions**
+  Automate build, test and deployment pipelines for each service on PRs and merges to `main`.
 
-```
+- **Azure Deployment**
+  Deploy the API and Function App to Azure App Services (or Azure Functions) with Infrastructure-as-Code (ARM/Bicep/Terraform).
 
-```
+- **Authentication & 2FA**
+  Add a secure sign-in/sign-up flow (e.g. Azure AD B2C) with multi-factor authentication to protect endpoints and personalize user experience.
+
+- **Docker Compose for Development**
+  Extend `docker-compose.yml` to orchestrate all services (SQL Server, API, Function App, frontend) for zero-configuration local setup.
+
+- **Enhanced Error Handling**
+  Implement global exception middleware, standardized ProblemDetails responses, structured logging (Serilog/Application Insights) and proper retry policies.

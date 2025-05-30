@@ -60,7 +60,7 @@ The service integrates with the [Nager.Date Public Holiday API](https://date.nag
 2. Set up database connection string in `appsettings.json`:
    ```json
    "ConnectionStrings": {
-     "DefaultConnection": "Server=your_server;Database=HolidaysDb;User Id=your_user;Password=your_password;"
+     "DefaultConnection": "Server=localhost,1433;Database=HolidaysDb;User Id=sa;Password=Your_strong_Password1!;TrustServerCertificate=True;"
    }
    ```
 3. Apply database migrations: dotnet ef database update
@@ -74,18 +74,18 @@ The service integrates with the [Nager.Date Public Holiday API](https://date.nag
 
   1. **Azure AD B2C Setup**
 
-     - Create an **Azure AD B2C** tenant within your subscription.
+     - Create an **Azure AD B2C** tenant within the subscription.
      - Define _user flows_ (e.g. sign-up/sign-in, password reset).
      - Register two applications in the B2C tenant:
        - **Frontend SPA** (React) — grant it the **Implicit** or **Authorization Code** flow.
        - **Backend API** — expose an **API scope** (e.g. `https://<tenant>.onmicrosoft.com/holidays-api/access_as_user`).
-     - In B2C, assign your API scope to your SPA application as an authorized scope.
+     - In B2C, assign the API scope to the SPA application as an authorized scope.
 
   2. **Front-end (React) Integration**
 
      - Install **MSAL.js** (`@azure/msal-browser` + `@azure/msal-react`).
-     - Configure an MSAL instance with your B2C `authority` (domain+policy), `clientId`, and `redirectUri`.
-     - Wrap your app in `<MsalProvider>` and use `useMsal()`/`useIsAuthenticated()` to:
+     - Configure an MSAL instance with the B2C `authority` (domain+policy), `clientId`, and `redirectUri`.
+     - Wrap the app in `<MsalProvider>` and use `useMsal()`/`useIsAuthenticated()` to:
        1. Trigger the B2C hosted UI (`loginRedirect` or `loginPopup`).
        2. Acquire an **access token** for the API scope.
        3. Attach `Authorization: Bearer <access_token>` to every `/api/*` request (e.g. via an Axios interceptor).
@@ -105,8 +105,6 @@ The service integrates with the [Nager.Date Public Holiday API](https://date.nag
 
        var builder = WebApplication.CreateBuilder(args);
 
-       // ... your existing services ...
-
        // 1. Configure JWT Bearer to validate tokens from Azure AD B2C
        builder.Services
          .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -124,7 +122,7 @@ The service integrates with the [Nager.Date Public Holiday API](https://date.nag
        app.Run();
        ```
 
-     - Protect your endpoints:
+     - Protect the endpoints:
        ```csharp
        [Authorize]               // Requires any valid B2C user
        [Authorize("access_as_user")] // Requires the specific API scope
@@ -138,12 +136,12 @@ The service integrates with the [Nager.Date Public Holiday API](https://date.nag
 
      ```json
      "AzureAdB2C": {
-       "Instance": "https://<your-tenant>.b2clogin.com",
-       "Domain": "<your-tenant>.onmicrosoft.com",
+       "Instance": "https://<tenant>.b2clogin.com",
+       "Domain": "<tenant>.onmicrosoft.com",
        "ClientId": "<API-app-registration-ClientId>",
        "ClientSecret": "<secret-if-using-confidential-client-flow>",
        "SignUpSignInPolicyId": "B2C_1_SignUpSignIn",
-       "Scopes": "https://<your-tenant>.onmicrosoft.com/holidays-api/access_as_user"
+       "Scopes": "https://<tenant>.onmicrosoft.com/holidays-api/access_as_user"
      }
      ```
 
@@ -153,7 +151,7 @@ The service integrates with the [Nager.Date Public Holiday API](https://date.nag
      - **AWS Amplify Auth** ↔ **MSAL.js** for acquiring & caching JWTs
      - **Cognito ID/Access Tokens** ↔ **B2C ID/Access Tokens** (JWTs with claims & scopes)
 
-  Once implemented, users will log in via the B2C hosted UI (much like Cognito’s), receive a signed JWT, and every protected API call will validate that token—securing your holiday endpoints end-to-end.- [ ] **Implement caching**: Add response caching for frequently accessed endpoints
+  Once implemented, users will log in via the B2C hosted UI (much like Cognito’s), receive a signed JWT, and every protected API call will validate that token—securing the holiday endpoints end-to-end.- [ ] **Implement caching**: Add response caching for frequently accessed endpoints
 
 - [ ] **Enhanced error handling**
       Add a global exception-handling middleware (or use `UseExceptionHandler`) to catch all unhandled exceptions and return standardized [RFC7807 ProblemDetails](https://tools.ietf.org/html/rfc7807) responses. Use `ILogger` (or Serilog/Application Insights) to log full stack traces and contextual information. You can also:
@@ -163,11 +161,11 @@ The service integrates with the [Nager.Date Public Holiday API](https://date.nag
 
 - [ ] **Testing**
 
-  - **Unit tests**: Use xUnit (or NUnit) + Moq (or NSubstitute) to test your `NagerDateService` and any business logic in isolation. Mock out the HTTP client and `HolidayContext`.
-  - **Integration tests**: Leverage `WebApplicationFactory<TEntryPoint>` from `Microsoft.AspNetCore.Mvc.Testing` to spin up your API in-memory. Hit your controllers (e.g. `/api/holidays/…`) and assert on the HTTP responses and serialized payloads. Use an in-memory SQLite provider (or a Dockerized test SQL) for EF migrations.
+  - **Unit tests**: Use xUnit (or NUnit) + Moq (or NSubstitute) to test `NagerDateService` and any business logic in isolation. Mock out the HTTP client and `HolidayContext`.
+  - **Integration tests**: Leverage `WebApplicationFactory<TEntryPoint>` from `Microsoft.AspNetCore.Mvc.Testing` to spin up the API in-memory. Hit the controllers (e.g. `/api/holidays/…`) and assert on the HTTP responses and serialized payloads. Use an in-memory SQLite provider (or a Dockerized test SQL) for EF migrations.
 
 - [ ] **Rate limiting**
-      Protect your API from abusive clients by introducing a middleware such as [AspNetCoreRateLimit](https://github.com/stefanprodan/AspNetCoreRateLimit) or the new built-in rate limiter in .NET 8:
+      Protect the API from abusive clients by introducing a middleware such as [AspNetCoreRateLimit](https://github.com/stefanprodan/AspNetCoreRateLimit) or the new built-in rate limiter in .NET 8:
   ```csharp
   // In Program.cs
   builder.Services.AddRateLimiter(opts =>
@@ -207,7 +205,7 @@ The service integrates with the [Nager.Date Public Holiday API](https://date.nag
      ```bash
      dotnet add package AspNetCore.HealthChecks.Uris
      ```
-   - Register a named HTTP client and your custom check in `Program.cs`:
+   - Register a named HTTP client and the custom check in `Program.cs`:
      ```csharp
      builder.Services.AddHttpClient("Health", c => {
        c.BaseAddress = new Uri("https://date.nager.at/api/v3/");

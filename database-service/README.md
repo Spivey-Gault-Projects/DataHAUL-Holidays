@@ -28,12 +28,12 @@ docker-compose up -d
 
 docker-compose ps
 
-# 3. (Once healthy) apply EF Core migrations from your api-service:
+# 3. (Once healthy) apply EF Core migrations from the api-service:
 
 cd ../api-service
 dotnet ef database update
 
-# Use the following connection string in your API’s appsettings.json:
+# Use the following connection string in the API’s appsettings.json:
 
 Server=localhost,${DB_PORT};Database=${DB_NAME};User Id=sa;Password=${SA_PASSWORD};
 
