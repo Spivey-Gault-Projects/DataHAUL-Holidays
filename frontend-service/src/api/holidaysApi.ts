@@ -1,7 +1,5 @@
 import axios from "axios";
-import { Holiday } from "../types/Holiday";
-import { Country } from "../types/Country";
-import { LongWeekend } from "../types/LongWeekend";
+import { Country, Holiday, LongWeekend } from "../types/types";
 
 const base = process.env.REACT_APP_API_BASE_URL!;
 

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Box, TextField, Button } from "@mui/material";
 import { fetchHolidays } from "../../api/holidaysApi";
-import { Holiday } from "../../types/Holiday";
-import { HolidaysTable } from "../../components/HolidaysTable";
+import { Holiday } from "../../types/types";
 
 export function HolidaysPage() {
   const [year, setYear] = useState<number>(new Date().getFullYear());

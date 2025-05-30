@@ -15,8 +15,8 @@ import {
   useTheme,
 } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { Holiday } from "../../types/Holiday";
 import { Grid2 } from "@mui/material";
+import { Holiday } from "../../types/types";
 
 export function HolidayPage() {
   const location = useLocation();

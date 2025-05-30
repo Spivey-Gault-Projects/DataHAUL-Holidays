@@ -12,7 +12,10 @@ namespace DataHaul.Holidays.Api.Controllers
 		public LongWeekendsController(INagerDateService nager) => _nager = nager;
 
 		[HttpGet("{year:int}/{countryCode}")]
-		public async Task<IEnumerable<Holiday>> Get(int year, string countryCode) =>
-			await _nager.GetLongWeekendAsync(year, countryCode.ToUpper());
+		public async Task<ActionResult<IEnumerable<LongWeekend>>> Get(int year, string countryCode)
+		{
+			var list = await _nager.GetLongWeekendAsync(year, countryCode.ToUpper());
+			return Ok(list);
+		}
 	}
 }

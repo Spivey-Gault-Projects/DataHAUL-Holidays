@@ -7,8 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
-import { Country } from "../types/Country";
-import { Holiday } from "../types/Holiday";
+
 import { fetchHolidays } from "../api/holidaysApi";
 import {
   ResponsiveContainer,
@@ -18,6 +17,7 @@ import {
   Tooltip,
   Bar,
 } from "recharts";
+import { Country, Holiday } from "../types/types";
 
 export default function CompareSection({
   countries,

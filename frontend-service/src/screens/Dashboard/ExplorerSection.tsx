@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Box, Tabs, Tab, Drawer, Typography, Divider } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 
@@ -11,10 +11,10 @@ import {
 import LongWeekendsTable from "../../components/LongWeekendsTable";
 import TodayCard from "../../components/TodayCard";
 import CompareSection from "../../components/CompareSection";
-import { Country } from "../../types/Country";
-import { Holiday } from "../../types/Holiday";
-import { LongWeekend } from "../../types/LongWeekend";
+
 import { HolidaysTable } from "../../components/HolidaysTable";
+import { Country, Holiday, LongWeekend } from "../../types/types";
+import DetailedHolidayView from "../../components/DetailedHolidayView";
 
 export default function ExplorerSection() {
   const [year, setYear] = useState(new Date().getFullYear());
@@ -47,7 +47,17 @@ export default function ExplorerSection() {
     enabled: false,
   });
 
-  const doSearch = () => {
+  const uniqueHolidays = useMemo(() => {
+    const seen = new Set<string>();
+    return (holidaysQuery.data ?? []).filter((h) => {
+      const key = `${h.date}::${h.name}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }, [holidaysQuery.data]);
+
+  const handleSearch = () => {
     holidaysQuery.refetch();
     longWeekendsQuery.refetch();
   };
@@ -66,7 +76,7 @@ export default function ExplorerSection() {
         country={country}
         setYear={setYear}
         setCountry={setCountry}
-        onSearch={doSearch}
+        onSearch={handleSearch}
         loading={holidaysQuery.isFetching || longWeekendsQuery.isFetching}
       />
 
@@ -81,7 +91,7 @@ export default function ExplorerSection() {
       <Box sx={{ mt: 2, height: activeTab < 2 ? 400 : "auto" }}>
         {activeTab === 0 && (
           <HolidaysTable
-            rows={holidaysQuery.data || []}
+            rows={uniqueHolidays}
             loading={holidaysQuery.isFetching}
             onRowClick={handleRowClick}
           />
@@ -103,10 +113,8 @@ export default function ExplorerSection() {
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
       >
-        <Box sx={{ width: 400, p: 2 }}>
-          <Typography variant="h6">Raw JSON</Typography>
-          <Divider sx={{ my: 1 }} />
-          <pre>{JSON.stringify(selectedRow, null, 2)}</pre>
+        <Box>
+          {selectedRow && <DetailedHolidayView holiday={selectedRow} />}
         </Box>
       </Drawer>
     </>

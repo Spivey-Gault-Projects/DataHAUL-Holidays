@@ -1,3 +1,14 @@
+export interface LongWeekend {
+  startDate: string; // ISO date
+  endDate: string; // ISO date
+  days: number;
+}
+
+export interface Country {
+  countryCode: string;
+  name: string;
+}
+
 export interface Holiday {
   id: number;
   localName: string;

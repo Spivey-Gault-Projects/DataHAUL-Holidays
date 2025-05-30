@@ -1,13 +1,13 @@
 import { Card, CardContent, Typography, Button, Box } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { fetchIsTodayPublicHoliday } from "../api/holidaysApi";
-import { Country } from "../types/Country";
+import { Country } from "../types/types";
 
-interface Props {
+interface TodayCardProps {
   country: Country | null;
 }
 
-export default function TodayCard({ country }: Props) {
+export default function TodayCard({ country }: TodayCardProps) {
   const { data, isFetching, refetch } = useQuery<boolean, Error>({
     queryKey: ["today", country?.countryCode],
     queryFn: () => fetchIsTodayPublicHoliday(country!.countryCode),

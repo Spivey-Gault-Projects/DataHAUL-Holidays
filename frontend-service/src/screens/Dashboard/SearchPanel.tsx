@@ -1,7 +1,7 @@
 import { Box, Autocomplete, TextField, Button } from "@mui/material";
-import { Country } from "../../types/Country";
+import { Country } from "../../types/types";
 
-interface Props {
+interface SearchPanelProps {
   countries: Country[];
   loadingCountries: boolean;
   year: number;
@@ -21,7 +21,7 @@ export default function SearchPanel({
   setCountry,
   onSearch,
   loading,
-}: Props) {
+}: SearchPanelProps) {
   return (
     <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, mb: 4 }}>
       <Autocomplete

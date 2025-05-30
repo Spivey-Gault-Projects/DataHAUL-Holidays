@@ -1,10 +1,10 @@
 import { Box, Typography, Button, useTheme } from "@mui/material";
 
-interface Props {
+interface HeroSectionProps {
   onGetStarted: () => void;
 }
 
-export default function HeroSection({ onGetStarted }: Props) {
+export default function HeroSection({ onGetStarted }: HeroSectionProps) {
   const theme = useTheme();
   return (
     <Box
@@ -16,7 +16,7 @@ export default function HeroSection({ onGetStarted }: Props) {
       }}
     >
       <Typography variant="h2" gutterBottom>
-        DataHaul Holidays Explorer
+        DataHAUL Holidays Explorer
       </Typography>
       <Typography variant="h6" gutterBottom>
         Explore holidays and long weekends around the world

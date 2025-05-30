@@ -20,10 +20,10 @@ namespace DataHaul.Holidays.Api.Services
 			return result ?? Enumerable.Empty<Country>();
 		}
 
-		public async Task<IEnumerable<Holiday>> GetLongWeekendAsync(int year, string countryCode)
+		public async Task<IEnumerable<LongWeekend>> GetLongWeekendAsync(int year, string countryCode)
 		{
-			var result = await _http.GetFromJsonAsync<List<Holiday>>($"LongWeekend/{year}/{countryCode}");
-			return result ?? Enumerable.Empty<Holiday>();
+			var result = await _http.GetFromJsonAsync<List<LongWeekend>>($"LongWeekend/{year}/{countryCode}");
+			return result ?? Enumerable.Empty<LongWeekend>();
 		}
 
 		public async Task<bool> IsTodayPublicHolidayAsync(string countryCode)

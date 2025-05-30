@@ -4,8 +4,8 @@ import {
   GridRenderCellParams,
   GridRowParams,
 } from "@mui/x-data-grid";
-import { useNavigate } from "react-router-dom";
-import { Holiday } from "../types/Holiday";
+import { Holiday } from "../types/types";
+import { useMemo } from "react";
 
 interface HolidaysTableProps {
   rows: Holiday[];
@@ -39,12 +39,6 @@ const columns: GridColDef[] = [
   { field: "countryCode", headerName: "Country", width: 100 },
   { field: "fixed", headerName: "Fixed", width: 90, type: "boolean" },
   { field: "global", headerName: "Global", width: 90, type: "boolean" },
-  {
-    field: "launchYear",
-    headerName: "Launch Year",
-    width: 120,
-    type: "number",
-  },
 ];
 
 export function HolidaysTable({
@@ -52,9 +46,19 @@ export function HolidaysTable({
   loading,
   onRowClick,
 }: HolidaysTableProps) {
+  const uniqueRows = useMemo(() => {
+    const seen = new Set<string>();
+    return rows.filter((h) => {
+      const key = `${h.date}-${h.name}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }, [rows]);
   return (
     <div style={{ height: 400, width: "100%" }}>
       <DataGrid
+        getRowId={(row) => `${row.date}-${row.name}`}
         rows={rows}
         columns={columns}
         initialState={{
