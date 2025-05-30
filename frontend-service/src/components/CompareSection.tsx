@@ -220,7 +220,9 @@ export default function CompareSection({
                 <ListItem key={h.date + h.localName} disablePadding>
                   <ListItemText
                     primary={h.localName}
-                    secondary={new Date(h.date).toLocaleDateString("en-US")}
+                    secondary={`${h.name} — ${new Date(
+                      h.date
+                    ).toLocaleDateString("en-US")}`}
                   />
                 </ListItem>
               ))}

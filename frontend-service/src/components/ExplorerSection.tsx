@@ -9,16 +9,17 @@ import {
   fetchLongWeekends,
   fetchNext365,
   fetchNextWorldwide,
-} from "../../api/holidaysApi";
-import LongWeekendsTable from "../../components/LongWeekendsTable";
-import TodayCard from "../../components/TodayCard";
-import CompareSection from "../../components/CompareSection";
+} from "../api/holidaysApi";
+import LongWeekendsTable from "./LongWeekendsTable";
+import TodayCard from "./TodayCard";
+import CompareSection from "./CompareSection";
 
-import { HolidaysTable } from "../../components/HolidaysTable";
-import { Country, Holiday, LongWeekend } from "../../types/types";
-import DetailedHolidayView from "../../components/DetailedHolidayView";
-import UpcomingCalendar from "../../components/UpcomingCalendar";
-import YearCalendar from "../../components/YearCalendar";
+import { HolidaysTable } from "./HolidaysTable";
+import { Country, Holiday, LongWeekend } from "../types/types";
+import DetailedHolidayView from "./DetailedHolidayView";
+import UpcomingCalendar from "./UpcomingCalendar";
+import YearCalendar from "./YearCalendar";
+import LongWeekendDetail from "./LongWeekendDetail";
 
 export default function ExplorerSection() {
   const [year, setYear] = useState(new Date().getFullYear());
@@ -111,7 +112,7 @@ export default function ExplorerSection() {
       <TodayCard country={country} />
 
       <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)}>
-        <Tab label="Upcoming (7d)" /> {/* idx = 0 */}
+        <Tab label="Upcoming (7 days)" /> {/* idx = 0 */}
         <Tab label="Next 365 Days" /> {/* idx = 1 */}
         <Tab label="Holidays" /> {/* idx = 2 */}
         <Tab label="Long Weekends" /> {/* idx = 3 */}
@@ -169,7 +170,14 @@ export default function ExplorerSection() {
         onClose={() => setDrawerOpen(false)}
       >
         <Box>
-          {selectedRow && <DetailedHolidayView holiday={selectedRow} />}
+          {selectedRow &&
+            // If the object has a startDate, treat it as a LongWeekend,
+            // otherwise it’s a Holiday.
+            ("startDate" in selectedRow ? (
+              <LongWeekendDetail weekend={selectedRow as LongWeekend} />
+            ) : (
+              <DetailedHolidayView holiday={selectedRow as Holiday} />
+            ))}
         </Box>
       </Drawer>
     </>

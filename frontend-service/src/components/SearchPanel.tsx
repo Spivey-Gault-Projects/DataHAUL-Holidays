@@ -1,5 +1,5 @@
 import { Box, Autocomplete, TextField, Button } from "@mui/material";
-import { Country } from "../../types/types";
+import { Country } from "../types/types";
 
 interface SearchPanelProps {
   countries: Country[];

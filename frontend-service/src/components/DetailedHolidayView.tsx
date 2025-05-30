@@ -45,22 +45,6 @@ export default function DetailedHolidayView({
           </Typography>
         </Box>
 
-        <Box>
-          <Typography variant="caption" color="textSecondary">
-            Global
-          </Typography>
-          <Typography variant="body1">
-            {holiday.global ? "Yes" : "No"}
-          </Typography>
-        </Box>
-
-        <Box>
-          <Typography variant="caption" color="textSecondary">
-            Launch Year
-          </Typography>
-          <Typography variant="body1">{holiday.launchYear ?? "—"}</Typography>
-        </Box>
-
         {holiday.types?.length > 0 && (
           <Box>
             <Typography variant="caption" color="textSecondary">
