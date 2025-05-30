@@ -1,13 +1,6 @@
 import { useState } from "react";
 import { Calendar, dateFnsLocalizer, Event } from "react-big-calendar";
-import {
-  format,
-  parse,
-  startOfWeek,
-  getDay,
-  addMonths,
-  addDays,
-} from "date-fns";
+import { format, parse, startOfWeek, getDay, addDays } from "date-fns";
 import { enUS } from "date-fns/locale";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Holiday } from "../types/types";

@@ -31,7 +31,8 @@ echo "✅ Database is ready!"
 echo "🚀 Starting API service..."
 (
   cd api-service/DataHaul.Holidays.Api
-  dotnet run --urls=http://localhost:5000
+  # dotnet run --urls=http://localhost:5000
+	dotnet run
 ) &
 
 # 3. Start the frontend (in foreground, so you see its logs)

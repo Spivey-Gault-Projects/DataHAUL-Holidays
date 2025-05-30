@@ -1,11 +1,4 @@
-import {
-  DataGrid,
-  GridColDef,
-  GridRenderCellParams,
-  GridRowParams,
-} from "@mui/x-data-grid";
 import { Holiday } from "../types/types";
-import { useMemo } from "react";
 import {
   Grid,
   Card,
@@ -22,32 +15,6 @@ interface HolidaysTableProps {
   loading: boolean;
   onHolidayClick: (h: Holiday) => void;
 }
-
-interface DateValueFormatterParams {
-  value: string | undefined;
-}
-
-const columns: GridColDef[] = [
-  // { field: "id", headerName: "ID", width: 70 },
-  { field: "localName", headerName: "Local Name", width: 200 },
-  { field: "name", headerName: "English Name", width: 200 },
-  {
-    field: "date",
-    headerName: "Date",
-    width: 130,
-    renderCell: (params: GridRenderCellParams<Holiday>) => {
-      const dateStr = params.value;
-      if (!dateStr) return null;
-      const d = new Date(dateStr);
-      const mm = String(d.getMonth() + 1).padStart(2, "0");
-      const dd = String(d.getDate()).padStart(2, "0");
-      const yy = d.getFullYear();
-      return <span>{`${mm}/${dd}/${yy}`}</span>;
-    },
-  },
-
-  { field: "countryCode", headerName: "Country", width: 100 },
-];
 
 export function HolidaysTable({
   rows,
