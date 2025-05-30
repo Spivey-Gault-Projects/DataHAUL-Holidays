@@ -29,7 +29,7 @@ export default function TodayCard({ country }: TodayCardProps) {
         ) : data === undefined ? (
           <Typography color="textSecondary">Tap to check.</Typography>
         ) : (
-          <Typography variant="h4">{data ? "Yes 🎉" : "No 🙏"}</Typography>
+          <Typography variant="h5">{data ? "Yes 🎉" : "No 🙏"}</Typography>
         )}
 
         <Box mt={2}>

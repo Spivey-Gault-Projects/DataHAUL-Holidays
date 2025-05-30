@@ -28,8 +28,16 @@ namespace DataHaul.Holidays.Api.Services
 
 		public async Task<bool> IsTodayPublicHolidayAsync(string countryCode)
 		{
-			var result = await _http.GetFromJsonAsync<bool>($"IsTodayPublicHoliday/{countryCode}");
-			return result;
+			// Nager.Date returns 204 No Content when today is NOT a holiday
+			var resp = await _http.GetAsync($"IsTodayPublicHoliday/{countryCode}");
+			if (resp.StatusCode == System.Net.HttpStatusCode.NoContent)
+			{
+				return false;
+			}
+			resp.EnsureSuccessStatusCode();
+			// Now read the true/false body
+			var isHoliday = await resp.Content.ReadFromJsonAsync<bool>();
+			return isHoliday;
 		}
 		public async Task<IEnumerable<Holiday>> GetNextPublicHolidaysWorldwideAsync()
 		{
