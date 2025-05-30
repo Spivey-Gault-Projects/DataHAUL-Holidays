@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Box, Tabs, Tab, Drawer } from "@mui/material";
+import { Box, Tabs, Tab, Drawer, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 
 import SearchPanel from "./SearchPanel";
@@ -7,6 +7,7 @@ import {
   fetchCountries,
   fetchHolidays,
   fetchLongWeekends,
+  fetchNext365,
   fetchNextWorldwide,
 } from "../../api/holidaysApi";
 import LongWeekendsTable from "../../components/LongWeekendsTable";
@@ -17,6 +18,7 @@ import { HolidaysTable } from "../../components/HolidaysTable";
 import { Country, Holiday, LongWeekend } from "../../types/types";
 import DetailedHolidayView from "../../components/DetailedHolidayView";
 import UpcomingCalendar from "../../components/UpcomingCalendar";
+import YearCalendar from "../../components/YearCalendar";
 
 export default function ExplorerSection() {
   const [year, setYear] = useState(new Date().getFullYear());
@@ -64,6 +66,15 @@ export default function ExplorerSection() {
     enabled: activeTab === 0,
   });
 
+  /**
+   * Query used to fetch the next 365 days of holidays for the selected country
+   */
+  const next365Query = useQuery<Holiday[], Error>({
+    queryKey: ["next365", country?.countryCode],
+    queryFn: () => fetchNext365(country!.countryCode),
+    enabled: activeTab === 1 && !!country,
+  });
+
   const uniqueHolidays = useMemo(() => {
     const seen = new Set<string>();
     return (holidaysQuery.data ?? []).filter((h) => {
@@ -100,10 +111,11 @@ export default function ExplorerSection() {
       <TodayCard country={country} />
 
       <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)}>
-        <Tab label="Upcoming (7d)" />
-        <Tab label="Holidays" />
-        <Tab label="Long Weekends" />
-        <Tab label="Compare" />
+        <Tab label="Upcoming (7d)" /> {/* idx = 0 */}
+        <Tab label="Next 365 Days" /> {/* idx = 1 */}
+        <Tab label="Holidays" /> {/* idx = 2 */}
+        <Tab label="Long Weekends" /> {/* idx = 3 */}
+        <Tab label="Compare" /> {/* idx = 4 */}
       </Tabs>
 
       <Box sx={{ mt: 2, height: activeTab < 2 ? 400 : "auto" }}>
@@ -115,7 +127,23 @@ export default function ExplorerSection() {
             />
           </Box>
         )}
-        {activeTab === 1 && (
+        {activeTab === 1 &&
+          (country ? (
+            <>
+              <Typography variant="body2" color="textSecondary" mb={2}>
+                Viewing the next 365 days of public holidays for {country.name}.
+              </Typography>
+              <YearCalendar
+                holidays={next365Query.data || []}
+                onHolidayClick={handleRowClick}
+              />
+            </>
+          ) : (
+            <Typography>
+              Select a country first to load the 365-day calendar.
+            </Typography>
+          ))}
+        {activeTab === 2 && (
           <HolidaysTable
             rows={uniqueHolidays}
             loading={holidaysQuery.isFetching}
@@ -123,14 +151,14 @@ export default function ExplorerSection() {
           />
         )}
 
-        {activeTab === 2 && (
+        {activeTab === 3 && (
           <LongWeekendsTable
             rows={longWeekendsQuery.data || []}
             loading={longWeekendsQuery.isFetching}
             onRowClick={handleRowClick}
           />
         )}
-        {activeTab === 3 && (
+        {activeTab === 4 && (
           <CompareSection countries={countries} year={year} />
         )}
       </Box>

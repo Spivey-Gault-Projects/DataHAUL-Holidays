@@ -36,5 +36,12 @@ namespace DataHaul.Holidays.Api.Services
 			var result = await _http.GetFromJsonAsync<List<Holiday>>("NextPublicHolidaysWorldwide");
 			return result ?? Enumerable.Empty<Holiday>();
 		}
+
+		public async Task<IEnumerable<Holiday>> GetNextPublicHolidaysForCountryAsync(string countryCode)
+		{
+			// this will call https://date.nager.at/api/v3/NextPublicHolidays/{countryCode}
+			var result = await _http.GetFromJsonAsync<List<Holiday>>($"NextPublicHolidays/{countryCode}");
+			return result ?? Enumerable.Empty<Holiday>();
+		}
 	}
 }

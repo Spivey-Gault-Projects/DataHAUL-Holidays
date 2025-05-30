@@ -9,6 +9,7 @@ namespace DataHaul.Holidays.Api.Services
 		Task<IEnumerable<LongWeekend>> GetLongWeekendAsync(int year, string countryCode);
 		Task<bool> IsTodayPublicHolidayAsync(string countryCode);
 		Task<IEnumerable<Holiday>> GetNextPublicHolidaysWorldwideAsync();
+		Task<IEnumerable<Holiday>> GetNextPublicHolidaysForCountryAsync(string countryCode);
 
 	}
 }

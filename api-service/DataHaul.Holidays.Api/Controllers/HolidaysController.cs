@@ -51,5 +51,12 @@ namespace DataHaul.Holidays.Api.Controllers
 			// 3. Return full list (could return `remote` directly)
 			return Ok(remote);
 		}
+
+		[HttpGet("next365/{countryCode}")]
+		public async Task<ActionResult<IEnumerable<Holiday>>> GetNext365(string countryCode)
+		{
+			var result = await _nager.GetNextPublicHolidaysForCountryAsync(countryCode.ToUpper());
+			return Ok(result);
+		}
 	}
 }
