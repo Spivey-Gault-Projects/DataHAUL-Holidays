@@ -61,7 +61,7 @@ export default function ExplorerSection() {
   const nextWorldwideQuery = useQuery<Holiday[], Error>({
     queryKey: ["nextWorldwide"],
     queryFn: fetchNextWorldwide,
-    enabled: activeTab === 3,
+    enabled: activeTab === 0,
   });
 
   const uniqueHolidays = useMemo(() => {
@@ -100,21 +100,14 @@ export default function ExplorerSection() {
       <TodayCard country={country} />
 
       <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)}>
-        <Tab label="Holidays" />
         <Tab label="Upcoming (7d)" />
+        <Tab label="Holidays" />
         <Tab label="Long Weekends" />
         <Tab label="Compare" />
       </Tabs>
 
       <Box sx={{ mt: 2, height: activeTab < 2 ? 400 : "auto" }}>
         {activeTab === 0 && (
-          <HolidaysTable
-            rows={uniqueHolidays}
-            loading={holidaysQuery.isFetching}
-            onRowClick={handleRowClick}
-          />
-        )}
-        {activeTab === 1 && (
           <Box sx={{ mt: 2 }}>
             <UpcomingCalendar
               holidays={nextWorldwideQuery.data || []}
@@ -122,6 +115,14 @@ export default function ExplorerSection() {
             />
           </Box>
         )}
+        {activeTab === 1 && (
+          <HolidaysTable
+            rows={uniqueHolidays}
+            loading={holidaysQuery.isFetching}
+            onRowClick={handleRowClick}
+          />
+        )}
+
         {activeTab === 2 && (
           <LongWeekendsTable
             rows={longWeekendsQuery.data || []}

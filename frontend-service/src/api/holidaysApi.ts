@@ -30,6 +30,6 @@ export async function fetchIsTodayPublicHoliday(countryCode: string) {
 }
 
 export async function fetchNextWorldwide(): Promise<Holiday[]> {
-  const r = await axios.get<Holiday[]>(`${base}/nextholidays`);
+  const r = await axios.get<Holiday[]>(`${base}/holidays/nextholidays`);
   return r.data;
 }

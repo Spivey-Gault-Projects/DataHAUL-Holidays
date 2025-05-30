@@ -1,4 +1,4 @@
-import { Box, Typography, Button, useTheme } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 
 interface HeroSectionProps {
   onGetStarted: () => void;
@@ -19,11 +19,8 @@ export default function HeroSection({ onGetStarted }: HeroSectionProps) {
         DataHAUL Holidays Explorer
       </Typography>
       <Typography variant="h6" gutterBottom>
-        Explore holidays and long weekends around the world
+        Explore holidays around the world!
       </Typography>
-      <Button variant="contained" size="large" onClick={onGetStarted}>
-        Get Started
-      </Button>
     </Box>
   );
 }

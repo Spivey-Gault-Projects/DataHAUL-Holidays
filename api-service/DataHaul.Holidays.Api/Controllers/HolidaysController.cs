@@ -18,6 +18,12 @@ namespace DataHaul.Holidays.Api.Controllers
 			_nager = nager;
 			_db = db;
 		}
+		[HttpGet("nextholidays")]
+		public async Task<ActionResult<IEnumerable<Holiday>>> GetNextWorldwide()
+		{
+			var result = await _nager.GetNextPublicHolidaysWorldwideAsync();
+			return Ok(result);
+		}
 		[HttpGet("is-today/{countryCode}")]
 		public async Task<ActionResult<bool>> IsToday(string countryCode)
 		{

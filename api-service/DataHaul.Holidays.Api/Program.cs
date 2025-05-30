@@ -49,7 +49,6 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowReactDev");
 
 
-app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
