@@ -1,46 +1,27 @@
 #!/usr/bin/env bash
-#
-# start-services.sh
-# Starts the database, .NET API, and React frontend concurrently,
-# shows all logs in one terminal, and tears them down with Ctrl+C.
-#
-
-
-# TODO - finish the script to start the services concurrently
 set -e
 
-# Trap Ctrl+C and kill all child processes
-trap "echo '⏹ Shutting down all services...' ; kill 0" SIGINT
-
-# 1. Start SQL Server docker-compose
 echo "🚀 Starting database container..."
-(
-  cd database-service
-  docker-compose up -d
-)
+pushd database-service >/dev/null
+docker compose up -d
+popd >/dev/null
 
-# (Optional) wait for SQL Server to be ready before launching the API:
-echo "⏳ Waiting for SQL Server to accept connections..."
-until docker exec database-service-sqlserver-1 /opt/mssql-tools/bin/sqlcmd \
-     -S localhost -U sa -P "Your_strong_Password1!" -Q "SELECT 1" &> /dev/null; do
-  sleep 1
+echo "⏳ Waiting for SQL Server to become healthy…"
+# wait until the service reports healthy
+while ! docker compose -f database-service/docker-compose.yml ps \
+      --filter "health=healthy" | grep -q "sqlserver"; do
+  sleep 2
 done
-echo "✅ Database is ready!"
+echo "✅ SQL Server is up!"
 
-# 2. Start the API in the background
 echo "🚀 Starting API service..."
-(
-  cd api-service/DataHaul.Holidays.Api
-  # dotnet run --urls=http://localhost:5000
-	dotnet run
-) &
+pushd api-service >/dev/null
+dotnet run &   # back-ground it so the script continues
+popd >/dev/null
 
-# 3. Start the frontend (in foreground, so you see its logs)
 echo "🚀 Starting frontend service..."
-(
-  cd frontend-service
-  npm start
-) &
+pushd frontend-service >/dev/null
+npm start &    # back-ground it too
+popd >/dev/null
 
-# 4. Wait on all background jobs
-wait
+wait  # wait for both dotnet and npm to exit (if ever)
