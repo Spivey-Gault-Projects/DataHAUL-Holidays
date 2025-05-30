@@ -42,8 +42,8 @@ export default function UpcomingCalendar({ holidays, onHolidayClick }: Props) {
         </Typography>
       </Stack>
       <Typography variant="body2" color="textSecondary" mb={2}>
-        Showing the upcoming public holidays worldwide for the next 7 days,
-        starting today.
+        Showing the upcoming public holidays <b>worldwide</b> for the next 7
+        days, starting today.
       </Typography>
 
       <Box

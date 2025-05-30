@@ -1,62 +1,66 @@
-import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
+import { Grid, Card, CardContent, Typography, Chip, Box } from "@mui/material";
+import { format, parseISO, differenceInCalendarDays } from "date-fns";
 import { LongWeekend } from "../types/types";
-import { useMemo } from "react";
 
 interface LongWeekendsTableProps {
   rows: LongWeekend[];
-  loading: boolean;
   onRowClick: (row: LongWeekend) => void;
+  loading: boolean;
 }
 
-export default function LongWeekendsTable({
+export default function LongWeekendsView({
   rows,
-  loading,
   onRowClick,
+  loading,
 }: LongWeekendsTableProps) {
-  const uniqueRows = useMemo(() => {
-    const seen = new Set<string>();
-    return rows
-      .map((r) => {
-        const id = `${r.startDate}-${r.endDate}`;
-        return { ...r, id };
-      })
-      .filter((r) => {
-        if (seen.has(r.id)) return false;
-        seen.add(r.id);
-        return true;
-      });
-  }, [rows]);
-  const columns: GridColDef[] = [
-    {
-      field: "startDate",
-      headerName: "Start",
-      width: 130,
-      renderCell: (params) => {
-        const v = params.value as string | undefined;
-        return v ? new Date(v).toLocaleDateString("en-US") : "";
-      },
-    },
-    {
-      field: "endDate",
-      headerName: "End",
-      width: 130,
-      renderCell: (params) => {
-        const v = params.value as string | undefined;
-        return v ? new Date(v).toLocaleDateString("en-US") : "";
-      },
-    },
-  ];
+  if (loading) {
+    return <Typography>Loading long weekends…</Typography>;
+  }
+  if (!rows.length) {
+    return <Typography>No long weekends found.</Typography>;
+  }
+
   return (
-    <div style={{ width: "100%" }}>
-      <DataGrid
-        rows={uniqueRows}
-        columns={columns}
-        pageSizeOptions={[5, 10]}
-        loading={loading}
-        autoHeight
-        disableRowSelectionOnClick
-        onRowClick={(p: GridRowParams<LongWeekend>) => onRowClick(p.row)}
-      />
-    </div>
+    <Grid container spacing={2}>
+      {rows.map((r) => {
+        const start = parseISO(r.startDate);
+        const end = parseISO(r.endDate);
+        const days = differenceInCalendarDays(end, start) + 1;
+        return (
+          <Grid item xs={12} sm={6} md={4} key={`${r.startDate}_${r.endDate}`}>
+            <Card
+              variant="outlined"
+              sx={{ cursor: "pointer", "&:hover": { boxShadow: 4 } }}
+              onClick={() => onRowClick(r)}
+            >
+              <CardContent>
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  mb={1}
+                >
+                  <Typography variant="h6">
+                    {format(start, "MMM d")} – {format(end, "MMM d")}
+                  </Typography>
+                  <Chip
+                    label={`${days} day${days > 1 ? "s" : ""}`}
+                    size="small"
+                  />
+                </Box>
+                <Typography color="textSecondary" variant="body2">
+                  {days > 1
+                    ? `Starts ${format(start, "EEEE")}, ends ${format(
+                        end,
+                        "EEEE"
+                      )}`
+                    : `Single-day weekend`}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        );
+      })}
+    </Grid>
   );
 }
