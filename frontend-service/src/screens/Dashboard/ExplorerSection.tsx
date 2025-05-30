@@ -101,9 +101,9 @@ export default function ExplorerSection() {
 
       <Tabs value={activeTab} onChange={(_, v) => setActiveTab(v)}>
         <Tab label="Holidays" />
+        <Tab label="Upcoming (7d)" />
         <Tab label="Long Weekends" />
         <Tab label="Compare" />
-        <Tab label="Upcoming (7d)" />
       </Tabs>
 
       <Box sx={{ mt: 2, height: activeTab < 2 ? 400 : "auto" }}>
@@ -115,22 +115,22 @@ export default function ExplorerSection() {
           />
         )}
         {activeTab === 1 && (
-          <LongWeekendsTable
-            rows={longWeekendsQuery.data || []}
-            loading={longWeekendsQuery.isFetching}
-            onRowClick={handleRowClick}
-          />
-        )}
-        {activeTab === 2 && (
-          <CompareSection countries={countries} year={year} />
-        )}
-        {activeTab === 3 && (
           <Box sx={{ mt: 2 }}>
             <UpcomingCalendar
               holidays={nextWorldwideQuery.data || []}
               onHolidayClick={handleRowClick}
             />
           </Box>
+        )}
+        {activeTab === 2 && (
+          <LongWeekendsTable
+            rows={longWeekendsQuery.data || []}
+            loading={longWeekendsQuery.isFetching}
+            onRowClick={handleRowClick}
+          />
+        )}
+        {activeTab === 3 && (
+          <CompareSection countries={countries} year={year} />
         )}
       </Box>
 
