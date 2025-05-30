@@ -1,46 +1,144 @@
-# Getting Started with Create React App
+# DataHaul Holidays Frontend Service
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React-based frontend application for exploring public holidays worldwide, built with Material UI and connected to a .NET backend API.
 
-## Available Scripts
+## Overview
 
-In the project directory, you can run:
+This frontend application provides an interactive interface for users to:
 
-### `npm start`
+- Browse upcoming public holidays worldwide
+- Search holidays by country and year
+- View long weekend information
+- Compare holiday counts between countries
+- Check if today is a holiday in a selected country
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Key Features
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- **Responsive Design**: Works on desktop and mobile devices
+- **Interactive Calendar Views**: Multiple calendar display options
+- **Data Visualization**: Charts for holiday comparisons
+- **Real-time Data**: Fetches from backend API service
+- **Modern UI**: Built with Material UI components
 
-### `npm test`
+## Component Architecture
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Core Components
 
-### `npm run build`
+1. **ExplorerSection** (`ExplorerSection.tsx`)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   - _User Perspective_: Main dashboard with tabs for different holiday views
+   - _Technical_: Manages state and coordinates data fetching between components
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. **SearchPanel** (`SearchPanel.tsx`)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+   - _User Perspective_: Search form for selecting country and year
+   - _Technical_: Controlled form component with autocomplete
 
-### `npm run eject`
+3. **HeroSection** (`HeroSection.tsx`)
+   - _User Perspective_: Welcome banner with app title
+   - _Technical_: Stateless presentation component with gradient background
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Feature Components
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. **TodayCard** (`TodayCard.tsx`)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+   - _User Perspective_: Shows whether today is a holiday in selected country
+   - _Technical_: Uses React Query for data fetching
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+2. **CompareSection** (`CompareSection.tsx`)
 
-## Learn More
+   - _User Perspective_: Compares holiday counts between countries
+   - _Technical_: Uses Recharts for data visualization
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. **HolidaysSection** (`HolidaysSection.tsx`)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   - _User Perspective_: Displays list of holidays in card format
+   - _Technical_: Responsive grid layout with interactive cards
+
+4. **LongWeekendsTable** (`LongWeekendsSection.tsx`)
+   - _User Perspective_: Shows upcoming long weekends
+   - _Technical_: Formats date ranges and calculates durations
+
+### Calendar Components
+
+1. **UpcomingCalendar** (`UpcomingCalendar.tsx`)
+
+   - _User Perspective_: 7-day view of upcoming holidays
+   - _Technical_: Groups holidays by day in a responsive grid
+
+2. **YearCalendar** (`YearCalendar.tsx`)
+   - _User Perspective_: 12-month view of holidays
+   - _Technical_: Wrapper for react-big-calendar with custom configuration
+
+### Detail Components
+
+1. **DetailedHolidayView** (`DetailedHolidayView.tsx`)
+
+   - _User Perspective_: Shows detailed holiday information in drawer
+   - _Technical_: Receives data via props from parent
+
+2. **LongWeekendDetail** (`LongWeekendDetail.tsx`)
+   - _User Perspective_: Shows detailed long weekend information
+   - _Technical_: Formats dates and calculates duration
+
+## API Integration
+
+The frontend communicates with the backend via `holidaysApi.ts`, which provides:
+
+- `fetchHolidays()` - Gets holidays for specific year/country
+- `fetchCountries()` - Gets list of supported countries
+- `fetchLongWeekends()` - Gets long weekend data
+- `fetchIsTodayPublicHoliday()` - Checks if today is a holiday
+- `fetchNextWorldwide()` - Gets upcoming worldwide holidays
+- `fetchNext365()` - Gets next year of holidays for country
+
+All API calls use Axios and are integrated via React Query for caching and state management.
+
+## Setup Instructions
+
+### Prerequisites
+
+- Node.js 20 or 22
+- Yarn or npm
+
+### Installation
+
+1. Clone the repository
+2. Install dependencies:
+   ```sh
+   yarn install
+   # or
+   npm install
+   ```
+3. Configure environment variables:
+   echo "REACT_APP_API_BASE_URL=http://localhost:5000" > .env
+4. Start the development server:
+   yarn start
+
+   # or
+
+   npm start
+
+## Development Notes
+
+### Uses Material UI theming system for consistent styling
+
+### Implements responsive design principles
+
+### Follows React best practices with functional components and hooks
+
+### Uses TypeScript for type safety
+
+### Implements React Query for data fetching and caching
+
+## TODOs & Future Improvements
+
+### Add user authentication
+
+### Implement holiday favorites/saving
+
+### Add more advanced filtering options
+
+### Improve mobile experience
+
+### Add unit and integration tests
