@@ -22,7 +22,11 @@ builder.Services.AddCors(options =>
 
 // 1. Database Context
 builder.Services.AddDbContext<HolidayContext>(opts =>
-  opts.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+  opts.UseSqlServer(
+    builder.Configuration.GetConnectionString("DefaultConnection"),
+    sqlOpts => sqlOpts.EnableRetryOnFailure()
+  )
+);
 
 // 2. HTTP Client for Nager.Date
 builder.Services.AddHttpClient<INagerDateService, NagerDateService>(client =>

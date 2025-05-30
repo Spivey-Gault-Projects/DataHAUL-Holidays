@@ -10,17 +10,17 @@ import {
 } from "@mui/material";
 import { format, parseISO } from "date-fns";
 
-interface HolidaysTableProps {
+interface HolidaysSectionProps {
   rows: Holiday[];
   loading: boolean;
   onHolidayClick: (h: Holiday) => void;
 }
 
-export function HolidaysTable({
+export function HolidaysSection({
   rows,
   loading,
   onHolidayClick,
-}: HolidaysTableProps) {
+}: HolidaysSectionProps) {
   if (loading) {
     return <Typography>Loading holidays…</Typography>;
   }

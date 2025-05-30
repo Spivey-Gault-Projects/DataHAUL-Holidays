@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Box, Tabs, Tab, Drawer, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 
@@ -10,16 +10,16 @@ import {
   fetchNext365,
   fetchNextWorldwide,
 } from "../api/holidaysApi";
-import LongWeekendsTable from "./LongWeekendsTable";
+import LongWeekendsTable from "./LongWeekendsSection";
 import TodayCard from "./TodayCard";
 import CompareSection from "./CompareSection";
 
-import { HolidaysTable } from "./HolidaysTable";
 import { Country, Holiday, LongWeekend } from "../types/types";
 import DetailedHolidayView from "./DetailedHolidayView";
 import UpcomingCalendar from "./UpcomingCalendar";
 import YearCalendar from "./YearCalendar";
 import LongWeekendDetail from "./LongWeekendDetail";
+import { HolidaysSection } from "./HolidaysSection";
 
 export default function ExplorerSection() {
   const [year, setYear] = useState(new Date().getFullYear());
@@ -46,7 +46,7 @@ export default function ExplorerSection() {
   const holidaysQuery = useQuery<Holiday[], Error>({
     queryKey: ["holidays", year, country?.countryCode],
     queryFn: () => fetchHolidays(year, country!.countryCode),
-    enabled: false,
+    enabled: activeTab === 2 && Boolean(country),
   });
 
   /**
@@ -76,6 +76,15 @@ export default function ExplorerSection() {
     enabled: activeTab === 1 && !!country,
   });
 
+  /**
+   * Effect that will run when we switch to the Holidays tab (tab 2) and a country is selected, refetching holidays.
+   */
+  useEffect(() => {
+    if (activeTab === 2 && country) {
+      holidaysQuery.refetch();
+    }
+  }, [activeTab, country]);
+
   const uniqueHolidays = useMemo(() => {
     const seen = new Set<string>();
     return (holidaysQuery.data ?? []).filter((h) => {
@@ -87,7 +96,7 @@ export default function ExplorerSection() {
   }, [holidaysQuery.data]);
 
   const handleSearch = () => {
-    holidaysQuery.refetch();
+    setActiveTab(2);
     longWeekendsQuery.refetch();
   };
 
@@ -145,7 +154,7 @@ export default function ExplorerSection() {
             </Typography>
           ))}
         {activeTab === 2 && (
-          <HolidaysTable
+          <HolidaysSection
             rows={uniqueHolidays}
             loading={holidaysQuery.isFetching}
             onHolidayClick={handleRowClick}

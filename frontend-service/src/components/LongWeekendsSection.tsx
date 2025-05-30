@@ -2,17 +2,17 @@ import { Grid, Card, CardContent, Typography, Chip, Box } from "@mui/material";
 import { format, parseISO, differenceInCalendarDays } from "date-fns";
 import { LongWeekend } from "../types/types";
 
-interface LongWeekendsTableProps {
+interface LongWeekendsSectionProps {
   rows: LongWeekend[];
   onRowClick: (row: LongWeekend) => void;
   loading: boolean;
 }
 
-export default function LongWeekendsView({
+export default function LongWeekendsSection({
   rows,
   onRowClick,
   loading,
-}: LongWeekendsTableProps) {
+}: LongWeekendsSectionProps) {
   if (loading) {
     return <Typography>Loading long weekends…</Typography>;
   }
