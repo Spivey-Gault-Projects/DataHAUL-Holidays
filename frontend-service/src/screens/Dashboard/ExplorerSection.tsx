@@ -147,7 +147,7 @@ export default function ExplorerSection() {
           <HolidaysTable
             rows={uniqueHolidays}
             loading={holidaysQuery.isFetching}
-            onRowClick={handleRowClick}
+            onHolidayClick={handleRowClick}
           />
         )}
 
