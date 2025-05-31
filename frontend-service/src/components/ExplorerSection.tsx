@@ -155,6 +155,7 @@ export default function ExplorerSection() {
           <Box sx={{ mt: 2 }}>
             <UpcomingCalendar
               holidays={nextWorldwideQuery.data || []}
+              countries={countries}
               onHolidayClick={handleRowClick}
             />
           </Box>

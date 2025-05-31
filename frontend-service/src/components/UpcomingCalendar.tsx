@@ -2,15 +2,30 @@ import { useState, useMemo } from "react";
 import { Box, Paper, Typography, IconButton, Stack } from "@mui/material";
 import { addDays, startOfDay, isSameDay, format } from "date-fns";
 
-import { Holiday } from "../types/types";
+import { Country, Holiday } from "../types/types";
 
 interface Props {
   holidays: Holiday[];
+  countries: Country[];
   onHolidayClick: (h: Holiday) => void;
 }
 
-export default function UpcomingCalendar({ holidays, onHolidayClick }: Props) {
+export default function UpcomingCalendar({
+  holidays,
+  countries,
+  onHolidayClick,
+}: Props) {
   const [start, setStart] = useState(() => startOfDay(new Date()));
+
+  /**
+   * Build a map from country code to country name
+   */
+  const countryNameMap = useMemo(() => {
+    return countries.reduce<Record<string, string>>((map, c) => {
+      map[c.countryCode] = c.name;
+      return map;
+    }, {});
+  }, [countries]);
 
   /**
    * Generate the next 7 days starting from today
@@ -28,7 +43,6 @@ export default function UpcomingCalendar({ holidays, onHolidayClick }: Props) {
       holidays.filter((h) => isSameDay(new Date(h.date), day))
     );
   }, [days, holidays]);
-
   return (
     <Box>
       <Stack
@@ -41,6 +55,7 @@ export default function UpcomingCalendar({ holidays, onHolidayClick }: Props) {
           {format(days[0], "MMM d")} – {format(days[6], "MMM d")}
         </Typography>
       </Stack>
+
       <Typography variant="body2" color="textSecondary" mb={2}>
         Showing the upcoming public holidays <b>worldwide</b> for the next 7
         days, starting today.
@@ -58,17 +73,23 @@ export default function UpcomingCalendar({ holidays, onHolidayClick }: Props) {
             <Typography variant="subtitle2" gutterBottom>
               {format(day, "EEE MM/dd")}
             </Typography>
+
             {eventsByDay[idx].length > 0 ? (
-              eventsByDay[idx].map((h) => (
-                <Typography
-                  key={h.date + h.localName}
-                  variant="body2"
-                  sx={{ cursor: "pointer", mb: 0.5 }}
-                  onClick={() => onHolidayClick(h)}
-                >
-                  • {h.localName}
-                </Typography>
-              ))
+              eventsByDay[idx].map((h) => {
+                const fullCountryName =
+                  countryNameMap[h.countryCode] || h.countryCode;
+
+                return (
+                  <Typography
+                    key={h.date + h.localName}
+                    variant="body2"
+                    sx={{ cursor: "pointer", mb: 0.5 }}
+                    onClick={() => onHolidayClick(h)}
+                  >
+                    • {h.localName} — {fullCountryName}
+                  </Typography>
+                );
+              })
             ) : (
               <Typography variant="body2" color="textSecondary">
                 — no holidays —
