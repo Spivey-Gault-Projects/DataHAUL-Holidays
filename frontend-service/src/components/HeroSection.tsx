@@ -8,13 +8,21 @@ export default function HeroSection() {
         py: { xs: 4, md: 6 },
         px: { xs: 2, md: 4 },
         borderRadius: 2,
-        backgroundImage: "linear-gradient(145deg, #1A237E 0%, #3949AB 100%)",
+        backgroundColor: "#080808",
         boxShadow: 3,
         color: "#ffffff",
       }}
     >
       <Typography variant="h2" gutterBottom>
-        DataHAUL Holidays Explorer
+        <Box component="span" sx={{ color: "#FFFFFF" }}>
+          Data
+        </Box>
+        <Box component="span" sx={{ color: "#556AFF" }}>
+          HAUL
+        </Box>
+        <Box component="span" sx={{ color: "#FFFFFF" }}>
+          Holidays Explorer
+        </Box>
       </Typography>
       <Typography
         variant="body1"
