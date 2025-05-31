@@ -36,15 +36,6 @@ export default function DetailedHolidayView({
           <Typography variant="body1">{holiday.countryCode}</Typography>
         </Box>
 
-        <Box>
-          <Typography variant="caption" color="textSecondary">
-            Fixed
-          </Typography>
-          <Typography variant="body1">
-            {holiday.fixed ? "Yes" : "No"}
-          </Typography>
-        </Box>
-
         {holiday.types?.length > 0 && (
           <Box>
             <Typography variant="caption" color="textSecondary">
