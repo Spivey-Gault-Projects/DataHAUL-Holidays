@@ -147,3 +147,6 @@ Built as part of the DataHaul interview process, demonstrating:
 
 - **Enhanced Error Handling**
   Implement global exception middleware, standardized ProblemDetails responses, structured logging (Serilog/Application Insights) and proper retry policies.
+
+- **Environment & Secret Management**
+  Define `.env.example` files, load secrets from environment or a vault (e.g. Azure Key Vault), and ensure no hard-coded credentials or API keys in source.
