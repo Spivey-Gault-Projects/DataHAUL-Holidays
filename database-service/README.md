@@ -41,3 +41,18 @@ Server=localhost,${DB_PORT};Database=${DB_NAME};User Id=sa;Password=${SA_PASSWOR
 
 docker-compose down
 docker volume rm database-service_dbdata
+
+## Additional Notes / Best Practices
+
+- **Healthcheck uses `${SA_PASSWORD}`**
+  We reference the same SA_PASSWORD from `.env` (instead of hard-coding), so you can rotate it without editing the compose file.
+
+- **.env should never be checked in**
+  Make sure `database-service/.env` is git-ignored. If this were a real production system, you’d store the SA_PASSWORD in a secure vault or CI/CD secret and only reference it at deploy time.
+
+- **Persistent Volume**
+  The `dbdata` volume ensures that your “HolidaysDb” data survives container restarts. To fully reset data, you can run:
+  ```bash
+  docker-compose down
+  docker volume rm database-service_dbdata
+  ```
