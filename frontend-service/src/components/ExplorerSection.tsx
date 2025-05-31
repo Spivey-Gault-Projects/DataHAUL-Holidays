@@ -118,7 +118,7 @@ export default function ExplorerSection() {
   }, [holidaysQuery.data]);
 
   const handleSearch = () => {
-    setActiveTab(2);
+    holidaysQuery.refetch();
     longWeekendsQuery.refetch();
   };
 
